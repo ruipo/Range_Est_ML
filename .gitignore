@@ -18,7 +18,7 @@ models/cnnc_norm_new_iter/*
 models/cnnr_norm_new_iter/*
 *.bdr
 *.tsv
-ouput_files/*
+output_files/*
 swellex/ctds/*
 *.prn
 swellex/figures/*
