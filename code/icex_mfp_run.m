@@ -42,13 +42,13 @@ NUM_CHANNELS = 32;
 
  
 % Set Path to DATA
-%prefix = '/Volumes/icex6/ICEX_UNCLASS/ICEX16/macrura/2016-03-13/DURIP/DURIP_20160313T055853/';
-prefix = '/Volumes/icex6/ICEX_UNCLASS/ICEX16/macrura/2016-03-14_andbefore/DURIP/DURIP_20160314T002324/';
+prefix = '/Volumes/icex6/ICEX_UNCLASS/ICEX16/macrura/2016-03-13/DURIP/DURIP_20160313T055853/';
+%prefix = '/Volumes/icex6/ICEX_UNCLASS/ICEX16/macrura/2016-03-14_andbefore/DURIP/DURIP_20160314T002324/';
  
 directory = dir([prefix 'ACO0000*.DAT']);
 
-first_file = 4900;
-last_file = 5500;
+first_file = 16000;
+last_file = 17000;
  
 % Read DATA
 aco_in = zeros(NUM_SAMPLES * (last_file-first_file), 32);
@@ -140,8 +140,11 @@ for ii = 1:floor(num_window/num_ss)
     cov_mat(:,:,ii) = mean(cov_mat_temp,3);
 end
 
+condlist = zeros(1,size(cov_mat,3));
+
 for k = 1:size(cov_mat,3)
     cov_mat(:,:,k) = cov_mat(:,:,k)./trace(cov_mat(:,:,k));
+    condlist(k) = cond(cov_mat(:,:,k));
 end
 
 %% Conventional MFP

@@ -6,8 +6,8 @@ prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/mfp/rpo_files/';
 filename1 = [prefix '0.01int_mfp_reps1.txt'];
 filename2 = [prefix '0.01int_mfp_reps2.txt'];
 filenames = [filename1; filename2];
-%filename1 = [prefix '109hz2_reps.txt'];
-%filenames = [filename1];
+%filename1 = [prefix '109hz2_reps.txt']; % For Swellex
+%filenames = [filename1]; % For Swellex
     
 fileID = fopen(filenames(1,:));
 C = textscan(fileID,'%s%s%s%s%s%s%s%s%s','HeaderLines',35);
@@ -20,7 +20,7 @@ end
 temp = temp(~isnan(temp));
 
 rep1 = reshape(temp,[32,3701,3]); %array element X range X depth
-%rep_mat = reshape(temp,[21,1001,3]); 
+%rep_mat = reshape(temp,[21,1001,3]); % For Swellex
 
 fclose(fileID);
 
@@ -42,7 +42,7 @@ rep_mat = [rep1 rep2]; % not normalized replica vectors
 
 array_size = 32;
 %prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/example/';
-prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/chk_files_test2/';
+prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/chk_files_testh/';
 %prefix = '/Users/Rui/Desktop/swellex/shallow/tests/test9_chk_files/';
 directory = dir([prefix '*.chk']);
 
@@ -97,33 +97,24 @@ end
 
 %% Add SNR
 % 
+% snr = -10;
 % n = 32;
-% snr = 0;
-% oasn_cov_snr = [];
-% 
-% for mat = 1:size(oasn_cov,3)
-%     
-%     oasn_cov_snr_temp = awgn(oasn_cov_norm(:,:,mat),2*snr,'measured');
-%     oasn_cov_snr(:,:,mat) = oasn_cov_snr_temp - diag(diag(oasn_cov_snr_temp)) + diag(abs(diag(oasn_cov_snr_temp)));
+% amp = trace(oasn_cov(:,:,900));
+% sigma2 = amp/(n*10^(snr/10));
+% noise_mat = zeros(n,n,length(directory));
+% for k = 1:length(directory)
+%     noise = sqrt(sigma2 / 2) * (randn(1, n) + (1i * randn(1, n))).';
+%     noise_mat(:,:,k) = noise*noise';
 % end
-snr = -10;
-n = 32;
-amp = trace(oasn_cov(:,:,900));
-sigma2 = amp/(n*10^(snr/10));
-noise_mat = zeros(n,n,length(directory));
-for k = 1:length(directory)
-    noise = sqrt(sigma2 / 2) * (randn(1, n) + (1i * randn(1, n))).';
-    noise_mat(:,:,k) = noise*noise';
-end
-oasn_cov_noise = oasn_cov + noise_mat;
-
-for k = 1:length(directory)
-    oasn_cov_snr(:,:,k) = oasn_cov_noise(:,:,k)./trace(oasn_cov_noise(:,:,k)); % normalized covariance matrices
-end
+% oasn_cov_noise = oasn_cov + noise_mat;
+% 
+% for k = 1:length(directory)
+%     oasn_cov_snr(:,:,k) = oasn_cov_noise(:,:,k)./trace(oasn_cov_noise(:,:,k)); % normalized covariance matrices
+% end
 
 %% Conventional MFP
 
-[mfp_output] = mfp_conv(oasn_cov_snr,rep_mat(:,:,2));
+[mfp_output] = mfp_conv(oasn_cov_norm,rep_mat(:,:,2));
 
 mfp_avg = squeeze(mean(mfp_output,1)); 
 
@@ -161,6 +152,7 @@ act_distance_class = round(act_distance./acc)*acc;
 sorted_pred_distance = pred_distance(I);
 sorted_pred_distance =sorted_pred_distance;
 sorted_act_distance = sorted_act_distance;
+
 figure
 plot(sorted_act_distance)
 hold on
@@ -172,7 +164,7 @@ title('MFP Result (SNR = INF)')
 grid on
 set(gca,'fontsize',30)
 
-acc = 100*sum(((pred_dist_class-act_distance_class) == 0))/length(act_distance_class);
+% acc = 100*sum(((pred_dist_class-act_distance_class) == 0))/length(act_distance_class);
 
 mae = mean(abs((sorted_act_distance-sorted_pred_distance)));
 
@@ -180,7 +172,7 @@ diff = abs(sorted_act_distance-sorted_pred_distance);
 percentwithin1km = 100*length(diff(diff<=1))/length(diff);
 percentwithinp5km = 100*length(diff(diff<=.5))/length(diff);
 percentwithinp1km = 100*length(diff(diff<=.1))/length(diff);
-%disp(['acc = ' num2str(acc)])
+% disp(['acc = ' num2str(acc)])
 disp(['mae = ' num2str(mae)])
 disp(['percent within 1km = ' num2str(percentwithin1km)])
 disp(['percent within 0.5km = ' num2str(percentwithinp5km)])
@@ -200,8 +192,8 @@ h = pcolor(sorted_act_distance,dist,100*(sorted_results));
 set(h, 'EdgeColor', 'none');
 xlabel('Actual Source Distance (km)')
 ylabel('Predicted Source Distance (km)')
-%xlim([3 50])
-%ylim([3 50])
+xlim([3 50])
+ylim([3 50])
 %caxis([0.025 0.05])
 title('Bartlett MFP Result (SNR = INF)') 
 
@@ -213,5 +205,5 @@ set(gca, 'YDir','normal')
 
 %% Write predictions to files
 
-dlmwrite('mfp_test2_m10db_pred.csv',sorted_pred_distance,'precision',8)
-dlmwrite('mfp_test2_act.csv',sorted_act_distance,'precision',8)
+dlmwrite('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/model/mfp_test2_pred.csv',sorted_pred_distance,'precision',8)
+dlmwrite('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/model/mfp_test2_act.csv',sorted_act_distance,'precision',8)

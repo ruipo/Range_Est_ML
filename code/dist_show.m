@@ -14,24 +14,30 @@ for i = 1:size(rep_mat,2)
     end
 end
 %%
-figure
-imagesc(label_mfp,label_mfp,dist_mat./(max(max(dist_mat))));
-set(gca,'YDir', 'normal');
+% figure
+% imagesc(label_mfp,label_mfp,dist_mat./(max(max(dist_mat))));
+% set(gca,'YDir', 'normal');
 
 figure
+subplot(2,1,1)
 h = pcolor(label_mfp,label_mfp,dist_mat./(max(max(dist_mat))));
+hold on
+plot([3 50],[10 10],'-.k','linewidth',2)
 set(h,'EdgeColor', 'none');
 xlabel('Distance (km)')
 ylabel('Distance (km)')
-set(gca,'fontsize',25);
+set(gca,'fontsize',20);
+caxis([0.5 1])
 title('MFP - Normalized Distance between Replica Vectors')
+colormap jet
 
-figure
-plot(label_mfp,dist_mat(701,:)./(max(max(dist_mat(701,:)))))
+subplot(2,1,2)
+plot(label_mfp,dist_mat(701,:)./(max(max(dist_mat(701,:)))),'b')
 xlabel('Distance (km)')
 ylabel('Normalized Vector Distance')
-set(gca,'fontsize',25);
-title('MFP - Normalized Distance between Replica Vectors (10 km)')
+set(gca,'fontsize',20);
+xlim([3 50])
+title('Horizontal slice at 10 km')
 grid on
 
 
@@ -75,9 +81,9 @@ grid on
 
 %% read in cnnc ml training layer d output
 
-layerd_output_train = dlmread('~/Desktop/output_files/layerd_output_train.tsv','\t');
+layerd_output_train = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/output_files/layerd_output_train.tsv','\t');
 layerd_output_train = layerd_output_train.';
-labels_ml = dlmread('~/Desktop/output_files/training_input_labels.tsv');
+labels_ml = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/output_files/training_input_labels.tsv');
 [~,arg] = sort(labels_ml);
 layerd_output_train = layerd_output_train(:,arg);
 
@@ -109,22 +115,25 @@ set(gca,'YDir', 'normal');
 %set(p,'EdgeColor', 'none');
 
 figure
+subplot(2,1,1)
 h = pcolor(label_c,label_c,dist_mat_ml_mean./(max(max(dist_mat_ml_mean))));
 set(h,'EdgeColor', 'none');
+hold on
+plot([3 50],[10 10],'-.k','linewidth',2)
 xlabel('Distance (km)')
 ylabel('Distance (km)')
-set(gca,'fontsize',25);
+caxis([0.5 1])
+set(gca,'fontsize',20);
 title('CNN-C - Normalized Distance between FC Layer Output Vectors')
 colorbar
 colormap jet
 
-figure
-plot(label_c,dist_mat_ml_mean(15,:)./(max(max(dist_mat_ml_mean(15,:)))),'linewidth',2)
+subplot(2,1,2)
+plot(label_c,dist_mat_ml_mean(15,:)./(max(max(dist_mat_ml_mean(15,:)))),'b','linewidth',2)
 xlabel('Distance (km)')
 ylabel('Normalized Vector Distance')
-set(gca,'fontsize',25);
-title('CNN-C - Normalized Distance between FC Layer Output Vectors (10 km)')
-xlim([3 49.5])
+set(gca,'fontsize',20);
+title('Horizontal slice at 10 km')
 grid on
 
 %% read in cnnc ml test2 layer d output
@@ -162,9 +171,9 @@ plot(label_c,dist_mat_test2_mean(153,:)./max(max(dist_mat_test2_mean(153,:))))
 nn = label_c(argmin).';
 
 %% read in cnnr ml training layer d output
-layerd_output_train = dlmread('~/Desktop/layerd_output_train_r.tsv','\t');
+layerd_output_train = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/output_files/layerd_output_train_r.tsv','\t');
 layerd_output_train = layerd_output_train.';
-labels_ml = dlmread('~/Desktop/layerd_output_train_rlabels.tsv');
+labels_ml = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/output_files/layerd_output_train_rlabels.tsv');
 [~,arg] = sort(labels_ml);
 layerd_output_train = layerd_output_train(:,arg);
 
@@ -173,6 +182,7 @@ layerd_output_train = layerd_output_train(:,arg);
 dist_mat_ml = zeros(size(layerd_output_train,2));
 
 for i = 1:size(layerd_output_train,2)
+    i
     for j = i:size(layerd_output_train,2)
         
         diff = layerd_output_train(:,i) - layerd_output_train(:,j);
@@ -181,28 +191,33 @@ for i = 1:size(layerd_output_train,2)
     end
 end
 
+dist_mat_ml = dist_mat_ml(1:4701,1:4701);
 %%
-figure
-imagesc(label_mfp,label_mfp,dist_mat_ml./max(max(dist_mat_ml)));
-set(gca,'YDir', 'normal');
-%set(p,'EdgeColor', 'none');
+% figure
+% imagesc(label_mfp,label_mfp,dist_mat_ml./max(max(dist_mat_ml)));
+% set(gca,'YDir', 'normal');
+% %set(p,'EdgeColor', 'none');
 
 figure
+subplot(2,1,1)
 h = pcolor(label_mfp,label_mfp,dist_mat_ml./(max(max(dist_mat_ml))));
 set(h,'EdgeColor', 'none');
+hold on
+plot([3 50],[10 10],'-.k','linewidth',2)
 xlabel('Distance (km)')
 ylabel('Distance (km)')
-set(gca,'fontsize',25);
-title('CNN-R - Normalized Distance between FC Layer Output Vectors')
+caxis([0.1 1])
+set(gca,'fontsize',20);
+title('CNN-r - Normalized Distance between FC Layer Output Vectors')
 colorbar
 colormap jet
 
-figure
-plot(label_mfp,dist_mat_ml(701,:)./(max(max(dist_mat_ml(701,:)))))
+subplot(2,1,2)
+plot(label_mfp,dist_mat_ml(701,:)./(max(max(dist_mat_ml(701,:)))),'b')
 xlabel('Distance (km)')
 ylabel('Normalized Vector Distance')
-set(gca,'fontsize',25);
-title('CNN-R - Normalized Distance between FC Layer Output Vectors (10 km)')
+set(gca,'fontsize',20);
+title('Horizontal slice at 10 km')
 xlim([3 50])
 grid on
 
