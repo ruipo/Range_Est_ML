@@ -66,7 +66,8 @@ array_size = 21;
 %prefix = '/Users/Rui/Desktop/temp/';
 %prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/chk_files_0.01intbb/';
 %prefix = '/Users/Rui/Desktop/swellex/shallow/param3/221m/mid_ssp/chk_files_221m/';
-prefix = '/Users/Rui/Desktop/swellex/shallow/tests/test9_chk_files/';
+%prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/shallow/tests/test6_chk_files/';
+prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/shallow/chk_files_0.01train_109hz2/';
 directory = dir([prefix '*.chk']);
 
 oasn_cov = zeros(array_size,array_size,length(directory));
