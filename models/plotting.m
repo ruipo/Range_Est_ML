@@ -350,3 +350,86 @@ ylabel('% within 1km of Actual')
 ylim([0 100])
 legend('FNN (With Normalization)','FNN (No Normalization)','CNN (With Normalization)','CNN (No Normalization)','MFP (With Normalization)')
 
+%% BDepth
+
+cnnc_1km = [93.6	97.2	98.4	99.2	91.4];
+cnnr_1km = [79.8	93.4	95.4	95	73.2];
+mfp_1km = [77.4	85.6	85.2	83.6	75];
+cnnc_mae = [0.428	0.185	0.103	0.086	0.461];
+cnnr_mae = [0.672	0.283	0.218	0.276	0.82];
+mfp_mae = [1.26	0.854	0.884	0.961	1.428];
+bdepth = [213.5	215.5	216.5	217.5	219.5];
+
+% figure
+% plot(bdepth,cnnc_1km,':rx','MarkerSize',10,'LineWidth',2)
+% hold on
+% plot(bdepth,cnnr_1km,':bx','MarkerSize',10,'LineWidth',2)
+% plot(bdepth,mfp_1km,':kx','MarkerSize',10,'LineWidth',2)
+% title('Prediction Errors with Bottom Depth','FontSize',25)
+% set(gca,'fontsize',25)
+% grid on
+% 
+% xlabel('Bottom Depth (m)')
+% ylabel('% of Predictions within 1km of Actual Distance')
+% ylim([0 100])
+% xlim([213.5 219.5])
+% legend('CNN-C','CNN-R','MFP')
+
+
+figure
+plot(bdepth,cnnc_mae,':rx','MarkerSize',10,'LineWidth',2)
+hold on
+plot(bdepth,cnnr_mae,':bx','MarkerSize',10,'LineWidth',2)
+plot(bdepth,mfp_mae,':kx','MarkerSize',10,'LineWidth',2)
+title('Prediction Errors with Bottom Depth','FontSize',25)
+set(gca,'fontsize',25)
+grid on
+
+xlabel('Bottom Depth (m)')
+ylabel('Mean Absolute Error (km)')
+ylim([0 1.5])
+xlim([213.5 219.5])
+legend('CNN-C','CNN-R','MFP')
+
+%% BL SSP
+
+cnnc_1km = [61.6 63 65.3 98.9 59.9 39.4 16.2];
+cnnr_1km = [59.3 60.9 64 85.9 60.2 41.5 23];
+mfp_1km = [37.6 41 43.7 93.8 35.9 26.9 11.5];
+cnnc_mae = [4.86 4.12 4.5 0.17 4.27 7.37 9.95];
+cnnr_mae = [2.61 2.41 2.81 0.61 2.21 3.97 4.93];
+mfp_mae = [10.2 10.22 10.25 1.56  10.89 11.58 12.84];
+sspdev = [-0.5 -0.25 -0.1 0 0.1 0.25 0.5];
+
+% figure
+% plot(sspdev,cnnc_1km,':rx','MarkerSize',10,'LineWidth',2)
+% hold on
+% plot(sspdev,cnnr_1km,':bx','MarkerSize',10,'LineWidth',2)
+% plot(sspdev,mfp_1km,':kx','MarkerSize',10,'LineWidth',2)
+% title('Prediction Errors with BL Strength','FontSize',25)
+% set(gca,'fontsize',25)
+% grid on
+% 
+% xlabel('Bottom Depth (m)')
+% ylabel('% of Predictions within 1km of Actual Distance')
+% ylim([0 100])
+% xlim([-0.5 0.5])
+% legend('CNN-C','CNN-R','MFP')
+
+
+figure
+plot(sspdev,cnnc_mae,':rx','MarkerSize',10,'LineWidth',2)
+hold on
+plot(sspdev,cnnr_mae,':bx','MarkerSize',10,'LineWidth',2)
+plot(sspdev,mfp_mae,':kx','MarkerSize',10,'LineWidth',2)
+title('Prediction Errors with BL Strength','FontSize',25)
+set(gca,'fontsize',25)
+grid on
+
+xlabel('Bottom Depth (m)')
+ylabel('Mean Absolute Error (km)')
+ylim([0 15])
+xlim([-0.5 0.5])
+legend('CNN-C','CNN-R','MFP')
+
+

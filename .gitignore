@@ -4,6 +4,7 @@
 *.fig
 *.png
 *.jpg
+*.eps
 old_code/*
 *.klog
 *.alog

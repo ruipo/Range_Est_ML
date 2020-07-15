@@ -1,6 +1,6 @@
 %%read in mfp repmat
-label_mfp = 3:0.01:50;
-%label_mfp = 0:0.01:10;
+%label_mfp = 3:0.01:50;
+label_mfp = 0:0.01:10;
 rep_mat = rep_mat(:,:,2);
 rep_mat = rep_mat./vecnorm(rep_mat);
 dist_mat = zeros(size(rep_mat,2));
@@ -171,9 +171,9 @@ plot(label_c,dist_mat_test2_mean(153,:)./max(max(dist_mat_test2_mean(153,:))))
 nn = label_c(argmin).';
 
 %% read in cnnr ml training layer d output
-layerd_output_train = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/output_files/layerd_output_train_r.tsv','\t');
+layerd_output_train = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/output_files/layerd_output_train_rtemps.tsv','\t');
 layerd_output_train = layerd_output_train.';
-labels_ml = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/output_files/layerd_output_train_rlabels.tsv');
+labels_ml = dlmread('/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/output_files/layerd_output_train_rlabelstemp.tsv');
 [~,arg] = sort(labels_ml);
 layerd_output_train = layerd_output_train(:,arg);
 
@@ -191,7 +191,8 @@ for i = 1:size(layerd_output_train,2)
     end
 end
 
-dist_mat_ml = dist_mat_ml(1:4701,1:4701);
+%dist_mat_ml = dist_mat_ml(1:4701,1:4701);
+dist_mat_ml = dist_mat_ml(1:1001,1:1001);
 %%
 % figure
 % imagesc(label_mfp,label_mfp,dist_mat_ml./max(max(dist_mat_ml)));
@@ -203,7 +204,7 @@ subplot(2,1,1)
 h = pcolor(label_mfp,label_mfp,dist_mat_ml./(max(max(dist_mat_ml))));
 set(h,'EdgeColor', 'none');
 hold on
-plot([3 50],[10 10],'-.k','linewidth',2)
+plot([0 50],[5 5],'-.k','linewidth',2)
 xlabel('Distance (km)')
 ylabel('Distance (km)')
 caxis([0.1 1])
@@ -213,12 +214,13 @@ colorbar
 colormap jet
 
 subplot(2,1,2)
-plot(label_mfp,dist_mat_ml(701,:)./(max(max(dist_mat_ml(701,:)))),'b')
+%plot(label_mfp,dist_mat_ml(701,:)./(max(max(dist_mat_ml(701,:)))),'b')
+plot(label_mfp,dist_mat_ml(501,:)./(max(max(dist_mat_ml(501,:)))),'b')
 xlabel('Distance (km)')
 ylabel('Normalized Vector Distance')
 set(gca,'fontsize',20);
 title('Horizontal slice at 10 km')
-xlim([3 50])
+xlim([0 10])
 grid on
 
 %% REad in cnnr ml test layer d output

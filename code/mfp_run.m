@@ -1,13 +1,17 @@
 
 %% Read in replica vectors
 clear rep_mat;
-prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/mfp/rpo_files/';
-%prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/mfp/rpo_files/swellex/shallow/';
-filename1 = [prefix '0.01int_mfp_reps1.txt'];
-filename2 = [prefix '0.01int_mfp_reps2.txt'];
-filenames = [filename1; filename2];
-%filename1 = [prefix '109hz2_reps.txt']; % For Swellex
-%filenames = [filename1]; % For Swellex
+% prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/mfp/rpo_files/';
+% prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/shallow/long_range/mfp_repvecs/';
+prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/mfp/rpo_files/swellex/shallow/';
+% filename1 = [prefix '0.01int_mfp_reps1.txt'];
+% filename2 = [prefix '0.01int_mfp_reps2.txt'];
+% filenames = [filename1; filename2];
+% filename1 = [prefix '109hz2_reps1.txt']; % For Swellex long range
+% filename2 = [prefix '109hz2_reps2.txt'];
+% filenames = [filename1; filename2];
+filename1 = [prefix '109hz2_reps.txt']; % For Swellex
+filenames = [filename1]; % For Swellex
     
 fileID = fopen(filenames(1,:));
 C = textscan(fileID,'%s%s%s%s%s%s%s%s%s','HeaderLines',35);
@@ -19,24 +23,25 @@ end
 
 temp = temp(~isnan(temp));
 
-rep1 = reshape(temp,[32,3701,3]); %array element X range X depth
-%rep_mat = reshape(temp,[21,1001,3]); % For Swellex
+%rep1 = reshape(temp,[32,3701,3]); %array element X range X depth
+%rep_mat = reshape(temp,[21,3001,3]); % For Swellex long range
+rep_mat = reshape(temp,[21,1001,3]); % For Swellex
 
 fclose(fileID);
 
-fileID = fopen(filenames(2,:));
-C = textscan(fileID,'%s%s%s%s%s%s%s%s','HeaderLines',46);
-
-temp = zeros(length(C{1,7})-7,1);
-for j = 1:length(C{1,7})-7
-    temp(j,1) =  str2double(C{1,7}{j,1}) + 1i*str2double(C{1,8}{j,1}(1:end-1));
-end
-
-rep2 = reshape(temp,[32,1000,3]); %array element X range X depth
-
-fclose(fileID);
-
-rep_mat = [rep1 rep2]; % not normalized replica vectors
+% fileID = fopen(filenames(2,:));
+% C = textscan(fileID,'%s%s%s%s%s%s%s%s','HeaderLines',46);
+% 
+% temp = zeros(length(C{1,7})-7,1);
+% for j = 1:length(C{1,7})-7
+%     temp(j,1) =  str2double(C{1,7}{j,1}) + 1i*str2double(C{1,8}{j,1}(1:end-1));
+% end
+% 
+% rep2 = reshape(temp,[32,1000,3]); %array element X range X depth
+% 
+% fclose(fileID);
+% 
+% rep_mat = [rep1 rep2]; % not normalized replica vectors
 
 %% Read in Covariance matrices
 

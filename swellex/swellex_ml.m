@@ -94,4 +94,4 @@ for k = 1:size(cov_mat_norm,3)
     features(k,:) = temp;
 end
 
-dlmwrite('vec_mat_features_swellex_shallow_109hz2.csv',features,'precision',6)
+dlmwrite('vec_mat_features_swellex_shallow_109hz2_test1.csv',features,'precision',6)

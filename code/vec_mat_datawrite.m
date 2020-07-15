@@ -38,15 +38,14 @@ csvwrite('vec_mat_clabels_icex_src_test.csv',labels_c)
 
 %% USE THIS
 
-f = 11;
-features = zeros(size(oasn_cov_snr,3),size(oasn_cov_snr,2)*(size(oasn_cov_snr,2)+1));
+features = zeros(size(oasn_cov_norm,3),size(oasn_cov_norm,2)*(size(oasn_cov_norm,2)+1));
 
-for k = 1:size(oasn_cov_snr,3)
+for k = 1:size(oasn_cov_norm,3)
     temp = [];
-    for i = 1:size(oasn_cov_snr,1)
-        for j = i:size(oasn_cov_snr,2)
-            re = real(oasn_cov_snr(i,j,k));
-            im = imag(oasn_cov_snr(i,j,k));
+    for i = 1:size(oasn_cov_norm,1)
+        for j = i:size(oasn_cov_norm,2)
+            re = real(oasn_cov_norm(i,j,k));
+            im = imag(oasn_cov_norm(i,j,k));
             
             temp = [temp re im];
             
@@ -58,12 +57,12 @@ for k = 1:size(oasn_cov_snr,3)
 end
 
 %%
-dlmwrite('vec_mat_features_icex_src_test2_norm_m10db.csv',features,'precision',6)
+dlmwrite('vec_mat_features_swellex_109hz2_lr_0.01train.csv',features,'precision',6)
 %dlmwrite('vec_mat_rlabels_icex_src_0.01trainbb.csv',labels,'precision',8)
 %csvwrite('vec_mat_clabels_icex_src_0.01trainbb.csv',labels_c)
 %dlmwrite('vec_mat_features_swellex_109hz2_test9.csv',features,'precision',6)
-%dlmwrite('vec_mat_rlabels_swellex_109hz2_test.csv',labels,'precision',8)
-%csvwrite('vec_mat_clabels_icex_src_0.01train4.csv',labels_c)
+dlmwrite('vec_mat_rlabels_swellex_109hz2_lr_0.01train.csv',labels,'precision',8)
+csvwrite('vec_mat_clabels_swellex_109hz2_lr_0.01train.csv',labels_c)
 
 
 
