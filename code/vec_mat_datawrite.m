@@ -57,12 +57,12 @@ for k = 1:size(oasn_cov_norm,3)
 end
 
 %%
-dlmwrite('vec_mat_features_swellex_109hz2_lr_0.01train.csv',features,'precision',6)
+dlmwrite('vec_mat_features_icex_src_testh_0.01int_norm.csv',features,'precision',6)
 %dlmwrite('vec_mat_rlabels_icex_src_0.01trainbb.csv',labels,'precision',8)
 %csvwrite('vec_mat_clabels_icex_src_0.01trainbb.csv',labels_c)
 %dlmwrite('vec_mat_features_swellex_109hz2_test9.csv',features,'precision',6)
-dlmwrite('vec_mat_rlabels_swellex_109hz2_lr_0.01train.csv',labels,'precision',8)
-csvwrite('vec_mat_clabels_swellex_109hz2_lr_0.01train.csv',labels_c)
+dlmwrite('vec_mat_rlabels_icex_src_testh_0.01int.csv',labels,'precision',8)
+csvwrite('vec_mat_clabels_icex_src_testh_0.01int.csv',labels_c)
 
 
 

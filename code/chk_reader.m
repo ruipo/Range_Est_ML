@@ -4,8 +4,8 @@
 %% classfication
 
 array_size = 32;
-%prefix = '/Users/Rui/Desktop/chk_files/';
-prefix = '/Users/Rui/Desktop/ML/ICEX_src_newssp/chk_files_0.1intbb/';
+prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/chk_files_testc_0.01int/';
+%prefix = '/Users/Rui/Desktop/ML/ICEX_src_newssp/chk_files_0.1intbb/';
 directory = dir([prefix '*.chk']);
 
 xlsfiles={directory.name};
@@ -62,13 +62,30 @@ end
 
 %% USE THIS
 
-array_size = 21;
+array_size = 32;
 %prefix = '/Users/Rui/Desktop/temp/';
 %prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/chk_files_0.01intbb/';
 %prefix = '/Users/Rui/Desktop/swellex/shallow/param3/221m/mid_ssp/chk_files_221m/';
 %prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/shallow/tests/test6_chk_files/';
-prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/shallow/long_range/chk_files_0.01train_109hz_lr/';
+%prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/swellex/shallow/long_range/chk_files_0.01train_109hz_lr/';
+prefix = '/Users/Rui/Documents/Graduate/Research/Range_Est_ML/ICEX_src_newssp/chk_files_testc_0.01int/';
 directory = dir([prefix '*.chk']);
+
+xlsfiles={directory.name};
+xlsfiles_num = [];
+
+for f = 1:length(xlsfiles)
+    
+    if ~isnan(str2double(xlsfiles{1,f}(1:4)))
+        xlsfiles_num(f) = str2double(xlsfiles{1,f}(1:4));
+    else
+        xlsfiles_num(f) = str2double(xlsfiles{1,f}(1:3));
+    end
+    
+end
+        
+[~,idx]=sort(xlsfiles_num);
+directory=directory(idx);
 
 oasn_cov = zeros(array_size,array_size,length(directory));
 labels = zeros(length(directory),1);
